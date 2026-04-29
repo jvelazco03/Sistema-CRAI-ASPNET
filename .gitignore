@@ -361,3 +361,7 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Exclusiones del Proyecto (Manuales y configs locales)
+*.pdf
+.cursorrules
