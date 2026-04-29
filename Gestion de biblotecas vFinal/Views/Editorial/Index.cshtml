@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Dominio.Dominio.Editorial>
+
+@{
+    ViewBag.Title = "Editoriales";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">🏢 Lista de Editoriales</h2>
+
+    <div class="row mb-3">
+        <div class="col-md-12 d-grid d-md-flex justify-content-md-end">
+            <a href="@Url.Action("Create")" class="btn btn-success">➕ Crear Nueva Editorial</a>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped align-middle">
+            <thead class="table-dark text-center">
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.CodigoEditorial)</th>
+                    <th>@Html.DisplayNameFor(model => model.Nombre)</th>
+                    <th>@Html.DisplayNameFor(model => model.Pais)</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody class="text-center">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.CodigoEditorial)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Nombre)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Pais)</td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                @Html.ActionLink("Editar", "Edit", new { id = item.CodigoEditorial }, new { @class = "btn btn-sm btn-warning" })
+                                @Html.ActionLink("Detalles", "Details", new { id = item.CodigoEditorial }, new { @class = "btn btn-sm btn-info text-white" })
+
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

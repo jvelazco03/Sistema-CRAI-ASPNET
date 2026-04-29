@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "Registrar Venta";
+}
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">🛒 Registrar Venta</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="row g-3">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="col-md-6">
+                <label for="CodigoLibro" class="form-label">Libro</label>
+                @Html.DropDownList("CodigoLibro", ViewBag.Libros as SelectList, "-- Selecciona un libro --", new { @class = "form-select", required = "required" })
+            </div>
+
+            <div class="col-md-6">
+                <label for="cantidad" class="form-label">Cantidad</label>
+                <input type="number" name="cantidad" class="form-control" min="1" required />
+            </div>
+
+            <div class="col-12 text-end mt-3">
+                <input type="submit" value="Registrar Venta" class="btn btn-primary" />
+                @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-secondary ms-2" })
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

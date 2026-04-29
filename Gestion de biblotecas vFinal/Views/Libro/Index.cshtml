@@ -1,0 +1,159 @@
+@model Gestion_de_Biblioteca.Models.LibroPaginadoViewModel
+
+@{
+    ViewBag.Title = "Catálogo Bibliográfico";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4"><i class="fas fa-book-open me-2"></i>CRAI - Catálogo Bibliográfico</h2>
+
+    @if (TempData["logErrores"] != null)
+    {
+        <div class="alert alert-warning alert-dismissible fade show" role="alert" id="alertaTemporal">
+            <strong>¡Atención!</strong> Algunos registros fallaron durante la importación.
+            <a href="@Url.Content("~/App_Data/ErroresImportacion.txt")" class="alert-link" download>Descargar log de errores</a>.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+        </div>
+    }
+
+    <div class="row mb-4">
+        <div class="col-md-3">
+            @if (Session["Rol"]?.ToString() == "Admin")
+            {
+                <a href="@Url.Action("Crear")" class="btn btn-success w-100 shadow-sm"><i class="fas fa-plus me-2"></i>Nuevo Libro</a>
+            }
+        </div>
+        <div class="col-md-6">
+            @using (Html.BeginForm("Index", "Libro", FormMethod.Get))
+            {
+                <div class="input-group shadow-sm">
+                    <input type="text" name="searchString" value="@Model.SearchString" class="form-control" placeholder="Buscar por t&iacute;tulo o c&oacute;digo..." aria-label="Buscar">
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Buscar</button>
+                </div>
+            }
+        </div>
+        <div class="col-md-3 d-flex gap-2">
+            <a href="@Url.Action("Importar")" class="btn btn-outline-secondary w-50"><i class="fas fa-file-import me-1"></i>Importar</a>
+            <a href="@Url.Action("Exportar")" class="btn btn-outline-secondary w-50"><i class="fas fa-file-export me-1"></i>Exportar</a>
+        </div>
+    </div>
+
+    <!-- GRILLA DE TARJETAS (SOFT UI) -->
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4 mb-4">
+        @foreach (var item in Model.Libros)
+        {
+            <div class="col">
+                <div class="card h-100 book-card shadow-sm">
+                    <!-- Etiqueta de Estado -->
+                    @if (item.Stock > 10)
+                    {
+                        <span class="badge bg-success text-white badge-status"><i class="fas fa-check-circle me-1"></i>Disponible</span>
+                    }
+                    else if (item.Stock > 0)
+                    {
+                        <span class="badge text-dark badge-status" style="background-color: #DAA520;"><i class="fas fa-exclamation-triangle me-1"></i>Últimos: @item.Stock</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger text-white badge-status"><i class="fas fa-times-circle me-1"></i>Agotado</span>
+                    }
+
+                    <!-- Placeholder Imagen Elegante -->
+                    <div class="book-img-placeholder">
+                        <i class="fas fa-book"></i>
+                    </div>
+
+                    <div class="card-body d-flex flex-column p-4">
+                        <p class="text-accent small fw-bold mb-1">Cód: @item.CodigoLibro</p>
+                        <h5 class="card-title fw-bold text-white mb-3" style="line-height: 1.3;">@item.Titulo</h5>
+                        
+                        <p class="card-text text-muted small mb-4">
+                            <i class="fas fa-building me-2"></i>@item.Editorial<br />
+                            <i class="fas fa-barcode me-2 mt-2"></i>@item.ISBN
+                        </p>
+                        
+                        <div class="mt-auto">
+                            <!-- Precio y Acciones de Administrador -->
+                            <div class="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom border-secondary">
+                                <span class="text-white fw-bold fs-4">S/ @item.Precio.ToString("0.00")</span>
+                                
+                                <div class="btn-group">
+                                    <a href="@Url.Action("Detalle", new { id = item.CodigoLibro })" class="btn btn-sm btn-outline-info" title="Ver Detalle"><i class="fas fa-eye"></i></a>
+                                    @if (Session["Rol"]?.ToString() == "Admin")
+                                    {
+                                        <a href="@Url.Action("Editar", new { id = item.CodigoLibro })" class="btn btn-sm btn-outline-warning" title="Editar"><i class="fas fa-edit"></i></a>
+                                        <a href="@Url.Action("Eliminar", new { id = item.CodigoLibro })" class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="fas fa-trash"></i></a>
+                                    }
+                                </div>
+                            </div>
+
+                            <!-- Botón Principal de Reserva -->
+                            @if (item.Stock > 0 && User.Identity.IsAuthenticated)
+                            {
+                                using (Html.BeginForm("AgregarCarrito", "Venta", FormMethod.Post, new { @class = "m-0" }))
+                                {
+                                    <input type="hidden" name="codigo" value="@item.CodigoLibro" />
+                                    <input type="hidden" name="titulo" value="@item.Titulo" />
+                                    <input type="hidden" name="precio" value="@item.Precio" />
+                                    <input type="hidden" name="cantidad" value="1" />
+                                    <button type="submit" class="btn btn-primary w-100 py-2 fs-6 shadow-sm">
+                                        <i class="fas fa-bookmark me-2"></i>Reservar Recurso
+                                    </button>
+                                }
+                            }
+                            else if (item.Stock <= 0)
+                            {
+                                <button class="btn btn-outline-secondary w-100 py-2 fs-6" disabled>
+                                    <i class="fas fa-times me-2"></i>No Disponible
+                                </button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- Paginación Manual -->
+    <div class="d-flex justify-content-between align-middle mt-4">
+        <div>
+            <p class="mb-0">P&aacute;gina <strong>@Model.PaginaActual</strong> de <strong>@Model.TotalPaginas</strong></p>
+        </div>
+        <nav>
+            <ul class="pagination mb-0">
+                @if (Model.PaginaActual > 1)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", new { searchString = Model.SearchString, page = Model.PaginaActual - 1 })">Anterior</a>
+                    </li>
+                }
+
+                @for (int i = 1; i <= Model.TotalPaginas; i++)
+                {
+                    <li class="page-item @(i == Model.PaginaActual ? "active" : "")">
+                        <a class="page-link" href="@Url.Action("Index", new { searchString = Model.SearchString, page = i })">@i</a>
+                    </li>
+                }
+
+                @if (Model.PaginaActual < Model.TotalPaginas)
+                {
+                    <li class="page-item">
+                        <a class="page-link" href="@Url.Action("Index", new { searchString = Model.SearchString, page = Model.PaginaActual + 1 })">Siguiente</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<script>
+    // Oculta automáticamente la alerta después de 5 segundos
+    setTimeout(function () {
+        var alerta = document.getElementById("alertaTemporal");
+        if (alerta) {
+            alerta.classList.remove("show");
+            alerta.classList.add("fade");
+            alerta.style.display = "none";
+        }
+    }, 5000);
+</script>

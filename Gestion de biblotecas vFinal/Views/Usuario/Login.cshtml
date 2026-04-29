@@ -1,0 +1,141 @@
+@model Gestion_de_Biblioteca.Models.LoginViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - Biblioteca</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <style>
+        body {
+            background-color: #2C3E50; /* Azul Marino Profundo */
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #BDC3C7;
+        }
+        .login-card {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+            border: 1px solid #34495E;
+            background-color: #243342;
+        }
+        .login-card .card-header {
+            background-color: #1a252f;
+            color: #DAA520; /* Oro Dorado */
+            text-align: center;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            border-bottom: 3px solid #DAA520;
+            padding: 25px 20px;
+        }
+        .login-card .card-body {
+            padding: 35px 30px;
+            background-color: #243342;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+            color: #BDC3C7;
+        }
+        /* Controles */
+        .form-control {
+            background-color: #34495E;
+            border-color: #BDC3C7;
+            color: #ffffff;
+        }
+        .form-control:focus {
+            background-color: #2C3E50;
+            border-color: #DAA520;
+            color: #ffffff;
+            box-shadow: 0 0 0 0.25rem rgba(218, 165, 32, 0.25);
+        }
+        .input-group-text {
+            background-color: #1a252f;
+            border-color: #BDC3C7;
+            color: #DAA520;
+        }
+        /* Botón Ingresar */
+        .btn-golden {
+            background-color: #DAA520;
+            border-color: #b8860b;
+            color: #1a252f;
+            font-weight: 600;
+        }
+        .btn-golden:hover {
+            background-color: #b8860b;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card login-card">
+        <div class="card-header">
+            <h4 class="mb-0"><i class="fas fa-book-reader me-2"></i>Sistema Bibliotecario</h4>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title text-center mb-4" style="color: #BDC3C7;">Acceso Restringido</h5>
+
+            @using (Html.BeginForm("Login", "Usuario", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="mb-3">
+                    @Html.LabelFor(m => m.Usuario, new { @class = "form-label fw-bold" })
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        @Html.TextBoxFor(m => m.Usuario, new { @class = "form-control", placeholder = "Ingrese su usuario" })
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Usuario, "", new { @class = "text-danger small mt-1 d-block" })
+                </div>
+
+                <div class="mb-4">
+                    @Html.LabelFor(m => m.Password, new { @class = "form-label fw-bold" })
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Ingrese su contraseña" })
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger small mt-1 d-block" })
+                </div>
+
+                <button type="submit" class="btn btn-golden w-100 shadow-sm py-2">
+                    <i class="fas fa-sign-in-alt me-2"></i>Ingresar
+                </button>
+            }
+        </div>
+    </div>
+
+    <!-- Scripts de validación en tiempo real para el cliente (ya que Layout = null) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+
+    <!-- Disparador de Alertas en caso de credenciales incorrectas -->
+    @if (ViewBag.MensajeError != null)
+    {
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Acceso Denegado',
+                    text: '@Html.Raw(ViewBag.MensajeError)',
+                    confirmButtonColor: '#DAA520',
+                    background: '#243342',
+                    color: '#BDC3C7'
+                });
+            });
+        </script>
+    }
+</body>
+</html>

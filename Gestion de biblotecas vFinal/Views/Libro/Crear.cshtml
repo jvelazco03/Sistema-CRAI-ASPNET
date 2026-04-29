@@ -1,0 +1,63 @@
+﻿@model Dominio.Dominio.Libro
+
+@{
+    ViewBag.Title = "Crear Libro";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">📘 Crear Libro</h2>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="row g-3">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="col-md-6">
+                @Html.LabelFor(m => m.CodigoLibro, new { @class = "form-label" })
+                @Html.EditorFor(m => m.CodigoLibro, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.CodigoLibro, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-md-6">
+                @Html.LabelFor(m => m.Titulo, new { @class = "form-label" })
+                @Html.EditorFor(m => m.Titulo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.Titulo, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-md-6">
+                @Html.LabelFor(m => m.ISBN, new { @class = "form-label" })
+                @Html.EditorFor(m => m.ISBN, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.ISBN, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-md-6">
+                @Html.LabelFor(m => m.CodigoEditorial, new { @class = "form-label" })
+                @Html.DropDownList("CodigoEditorial", ViewBag.editorial as SelectList, "-- Seleccione una editorial --", new { @class = "form-select" })
+                @Html.ValidationMessageFor(m => m.CodigoEditorial, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-md-6">
+                @Html.LabelFor(m => m.Precio, new { @class = "form-label" })
+                @Html.EditorFor(m => m.Precio, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.Precio, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-md-6">
+                @Html.LabelFor(m => m.Stock, new { @class = "form-label" })
+                @Html.EditorFor(m => m.Stock, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.Stock, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="col-12 text-end">
+                <input type="submit" value="Guardar" class="btn btn-success" />
+                @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-secondary ms-2" })
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

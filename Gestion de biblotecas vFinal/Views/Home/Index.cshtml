@@ -1,0 +1,71 @@
+@{
+    ViewBag.Title = "Librería Minimalista";
+}
+
+<!-- Hero Section Editorial -->
+<div class="py-5 mb-5 border-bottom border-secondary" style="background-color: transparent;">
+    <div class="container py-5 text-center">
+        
+        <!-- Ícono Minimalista de Librería -->
+        <div class="mb-4 text-accent">
+            <i class="bi bi-book-half" style="font-size: 5.5rem;"></i>
+        </div>
+        
+        <h1 class="fw-bold text-white mb-4" style="font-family: 'Playfair Display', 'Georgia', serif; font-size: 3.5rem; letter-spacing: -1px;">
+            Tu Próxima Lectura Comienza Aquí
+        </h1>
+        
+        <p class="lead mb-5 mx-auto" style="max-width: 750px; font-weight: 400; line-height: 1.8; font-size: 1.25rem;">
+            Descubre una colección curada de libros y recursos académicos. Gestiona tus préstamos y compras de forma sencilla y rápida en un entorno moderno.
+        </p>
+        
+        <div class="d-flex justify-content-center gap-3">
+            <a href="@Url.Action("Index", "Libro")" class="btn btn-primary btn-lg px-5 py-3 shadow-lg" style="letter-spacing: 0.5px;">
+                Ver Catálogo
+            </a>
+            <a href="@Url.Action("VerCarrito", "Venta")" class="btn btn-outline-secondary btn-lg px-5 py-3 shadow-sm" style="letter-spacing: 0.5px;">
+                Mi Carrito
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Sección de 3 Beneficios Minimalista -->
+<div class="container mb-5 pb-5">
+    <div class="row g-5 text-center px-4">
+        
+        <!-- Beneficio 1 -->
+        <div class="col-md-4 px-4">
+            <div class="mb-4 text-accent">
+                <i class="bi bi-collection" style="font-size: 2.8rem;"></i>
+            </div>
+            <h4 class="fw-bold mb-3 text-white" style="font-family: 'Playfair Display', 'Georgia', serif;">Catálogo Extenso</h4>
+            <p class="text-muted" style="line-height: 1.7; font-weight: 300;">
+                Explora meticulosamente cientos miles de títulos categorizados, clásicos invaluables y estrenos, listos para enriquecer tu biblioteca personal.
+            </p>
+        </div>
+
+        <!-- Beneficio 2 -->
+        <div class="col-md-4 px-4 border-start border-end border-secondary">
+            <div class="mb-4 text-accent">
+                <i class="bi bi-search" style="font-size: 2.8rem;"></i>
+            </div>
+            <h4 class="fw-bold mb-3 text-white" style="font-family: 'Playfair Display', 'Georgia', serif;">Búsqueda Inteligente</h4>
+            <p class="text-muted" style="line-height: 1.7; font-weight: 300;">
+                Encuentra velozmente la literatura que buscas por título o identificador gracias a un moderno de motor de paginación fluida.
+            </p>
+        </div>
+
+        <!-- Beneficio 3 -->
+        <div class="col-md-4 px-4">
+            <div class="mb-4 text-accent">
+                <i class="bi bi-person-badge" style="font-size: 2.8rem;"></i>
+            </div>
+            <h4 class="fw-bold mb-3 text-white" style="font-family: 'Playfair Display', 'Georgia', serif;">Gestión de Usuario</h4>
+            <p class="text-muted" style="line-height: 1.7; font-weight: 300;">
+                Administra tus privilegios libremente o el resguardo de tu carrito en un entorno virtual centralizado, seguro y privado.
+            </p>
+        </div>
+
+    </div>
+</div>

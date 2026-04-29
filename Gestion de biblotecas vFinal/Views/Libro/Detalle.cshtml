@@ -1,0 +1,40 @@
+﻿@model Dominio.Dominio.Libro
+
+@{
+    ViewBag.Title = "Detalle Libro";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">📖 Detalle del Libro</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <dl class="row">
+                <dt class="col-sm-4">Código</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(m => m.CodigoLibro)</dd>
+
+                <dt class="col-sm-4">Título</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(m => m.Titulo)</dd>
+
+                <dt class="col-sm-4">ISBN</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(m => m.ISBN)</dd>
+
+                <dt class="col-sm-4">Código Editorial</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(m => m.CodigoEditorial)</dd>
+
+                <dt class="col-sm-4">Editorial</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(m => m.Editorial)</dd>
+
+                <dt class="col-sm-4">Precio</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(m => m.Precio)</dd>
+
+                <dt class="col-sm-4">Stock</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(m => m.Stock)</dd>
+            </dl>
+
+            <div class="text-end mt-3">
+                @Html.ActionLink("Editar", "Editar", new { id = Model.CodigoLibro }, new { @class = "btn btn-warning" })
+                @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-secondary ms-2" })
+            </div>
+        </div>
+    </div>
+</div>

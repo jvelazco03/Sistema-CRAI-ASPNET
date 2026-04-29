@@ -1,0 +1,17 @@
+@{
+    ViewBag.Title = "Importar Excel";
+}
+
+<h2 class="text-center mb-4">Importar Libros desde Excel</h2>
+
+@using (Html.BeginForm("Importar", "Libro", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="form-group">
+        <label for="archivoExcel" class="form-label">Seleccione archivo Excel (.xlsx)</label>
+        <input type="file" name="archivoExcel" class="form-control" accept=".xlsx" required />
+    </div>
+    <div class="mt-3 d-flex gap-2">
+        <input type="submit" value="Importar" class="btn btn-primary" />
+        @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-secondary" })
+    </div>
+}

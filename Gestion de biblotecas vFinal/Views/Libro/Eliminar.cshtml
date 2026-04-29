@@ -1,0 +1,42 @@
+﻿@model Dominio.Dominio.Libro
+
+@{
+    ViewBag.Title = "Eliminar Libro";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4 text-danger">🗑️ Eliminar Libro</h2>
+    <h4 class="text-center">¿Estás seguro de que deseas eliminar este libro?</h4>
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-8">
+            <dl class="row">
+                <dt class="col-sm-4">Código</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(m => m.CodigoLibro)</dd>
+
+                <dt class="col-sm-4">Título</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(m => m.Titulo)</dd>
+
+                <dt class="col-sm-4">ISBN</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(m => m.ISBN)</dd>
+
+                <dt class="col-sm-4">Editorial</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(m => m.Editorial)</dd>
+
+                <dt class="col-sm-4">Precio</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(m => m.Precio)</dd>
+
+                <dt class="col-sm-4">Stock</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(m => m.Stock)</dd>
+            </dl>
+
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <div class="text-end">
+                    <input type="submit" value="Eliminar" class="btn btn-danger" />
+                    @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-secondary ms-2" })
+                </div>
+            }
+        </div>
+    </div>
+</div>
